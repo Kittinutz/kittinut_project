@@ -1,23 +1,19 @@
-# Use official Node.js Alpine image
-FROM node:18-alpine
+# Force AMD64 architecture
+FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --production
+RUN npm install
 
-# Copy the rest of the application code
+# Copy source code
 COPY . .
 
-# Build the Next.js app
+# Build the application
 RUN npm run build
 
-# Expose port (default Next.js port)
 EXPOSE 3000
-
-# Start the Next.js app in production mode
-CMD ["npx", "serve", "-s", "out", "-l", "3000"]
+CMD ["npm", "start"]
